@@ -25,7 +25,7 @@ public class DProduct {
     }
 
     public String save(String name, double price, String description, int stock) throws SQLException {
-        String query = "INSERT INTO products(name, price, description, stock) values(?, ?, ?, ?)";
+        String query = "INSERT INTO product(name, price, description, stock) values(?, ?, ?, ?)";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setString(1, name);
         ps.setDouble(2, price);
@@ -39,7 +39,7 @@ public class DProduct {
     }
 
     public String update(int id, String name, double price, String description, int stock) throws SQLException {
-        String query = "UPDATE products SET name=?, price=?, description=?, stock=? WHERE id=?";
+        String query = "UPDATE product SET name=?, price=?, description=?, stock=? WHERE id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setString(1, name);
         ps.setDouble(2, price);
@@ -54,7 +54,7 @@ public class DProduct {
     }
 
     public String delete(int id) throws SQLException {
-        String query = "DELETE FROM products WHERE id=?";
+        String query = "DELETE FROM product WHERE id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setInt(1, id);
         if (ps.executeUpdate() == 0) {
@@ -65,12 +65,12 @@ public class DProduct {
     }
 
     public List<String[]> findAll() throws SQLException {
-        List<String[]> products = new ArrayList<>();
-        String query = "SELECT * FROM products";
+        List<String[]> product = new ArrayList<>();
+        String query = "SELECT * FROM product";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ResultSet set = ps.executeQuery();
         while (set.next()) {
-            products.add(new String[] {
+            product.add(new String[] {
                     String.valueOf(set.getInt("id")),
                     set.getString("name"),
                     String.valueOf(set.getDouble("price")),
@@ -78,12 +78,12 @@ public class DProduct {
                     String.valueOf(set.getInt("stock"))
             });
         }
-        return products;
+        return product;
     }
 
     public String[] findOne(int id) throws SQLException {
         String[] product = null;
-        String query = "SELECT * FROM products WHERE id=?";
+        String query = "SELECT * FROM product WHERE id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setInt(1, id);
         ResultSet set = ps.executeQuery();

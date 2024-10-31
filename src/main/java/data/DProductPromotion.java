@@ -24,7 +24,7 @@ public class DProductPromotion {
     }
 
     public String save(int promotionId, int productId) throws SQLException {
-        String query = "INSERT INTO product_promotions (promotion_id, product_id) VALUES (?, ?)";
+        String query = "INSERT INTO product_promotion (promotion_id, product_id) VALUES (?, ?)";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setInt(1, promotionId);
         ps.setInt(2, productId);
@@ -36,7 +36,7 @@ public class DProductPromotion {
     }
 
     public String update(int promotionId, int productId, int newPromotionId, int newProductId) throws SQLException {
-        String query = "UPDATE product_promotions SET promotion_id=?, product_id=? WHERE promotion_id=? AND product_id=?";
+        String query = "UPDATE product_promotion SET promotion_id=?, product_id=? WHERE promotion_id=? AND product_id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setInt(1, newPromotionId);
         ps.setInt(2, newProductId);
@@ -50,7 +50,7 @@ public class DProductPromotion {
     }
 
     public String delete(int promotionId, int productId) throws SQLException {
-        String query = "DELETE FROM product_promotions WHERE promotion_id=? AND product_id=?";
+        String query = "DELETE FROM product_promotion WHERE promotion_id=? AND product_id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setInt(1, promotionId);
         ps.setInt(2, productId);
@@ -63,7 +63,7 @@ public class DProductPromotion {
 
     public List<String[]> findAll() throws SQLException {
         List<String[]> productPromotions = new ArrayList<>();
-        String query = "SELECT * FROM product_promotions";
+        String query = "SELECT * FROM product_promotion";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
@@ -77,7 +77,7 @@ public class DProductPromotion {
 
     public String[] findOne(int promotionId, int productId) throws SQLException {
         String[] productPromotion = null;
-        String query = "SELECT * FROM product_promotions WHERE promotion_id=? AND product_id=?";
+        String query = "SELECT * FROM product_promotion WHERE promotion_id=? AND product_id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setInt(1, promotionId);
         ps.setInt(2, productId);

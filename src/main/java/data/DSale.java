@@ -24,7 +24,7 @@ public class DSale {
     }
 
     public String save(int userId, double total, String saleDate) throws SQLException {
-        String query = "INSERT INTO sales (user_id, total, sale_date) VALUES (?, ?, ?)";
+        String query = "INSERT INTO sale (user_id, total, sale_date) VALUES (?, ?, ?)";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setInt(1, userId);
         ps.setDouble(2, total);
@@ -37,7 +37,7 @@ public class DSale {
     }
 
     public String update(int id, int userId, double total, String saleDate) throws SQLException {
-        String query = "UPDATE sales SET user_id=?, total=?, sale_date=? WHERE id=?";
+        String query = "UPDATE sale SET user_id=?, total=?, sale_date=? WHERE id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setInt(1, userId);
         ps.setDouble(2, total);
@@ -51,7 +51,7 @@ public class DSale {
     }
 
     public String delete(int id) throws SQLException {
-        String query = "DELETE FROM sales WHERE id=?";
+        String query = "DELETE FROM sale WHERE id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setInt(1, id);
         if (ps.executeUpdate() == 0) {
@@ -62,24 +62,24 @@ public class DSale {
     }
 
     public List<String[]> findAll() throws SQLException {
-        List<String[]> sales = new ArrayList<>();
-        String query = "SELECT * FROM sales";
+        List<String[]> sale = new ArrayList<>();
+        String query = "SELECT * FROM sale";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            sales.add(new String[] {
+            sale.add(new String[] {
                     String.valueOf(rs.getInt("id")),
                     String.valueOf(rs.getInt("user_id")),
                     String.valueOf(rs.getDouble("total")),
                     rs.getString("sale_date")
             });
         }
-        return sales;
+        return sale;
     }
 
     public String[] findOne(int id) throws SQLException {
         String[] sale = null;
-        String query = "SELECT * FROM sales WHERE id=?";
+        String query = "SELECT * FROM sale WHERE id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();

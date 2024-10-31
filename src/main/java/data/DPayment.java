@@ -24,7 +24,7 @@ public class DPayment {
     }
 
     public String save(int saleId, String paymentDate, double amount, String method) throws SQLException {
-        String query = "INSERT INTO payments (sale_id, payment_date, amount, method) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO payment (sale_id, payment_date, amount, method) VALUES (?, ?, ?, ?)";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setInt(1, saleId);
         ps.setString(2, paymentDate);
@@ -38,7 +38,7 @@ public class DPayment {
     }
 
     public String update(int id, int saleId, String paymentDate, double amount, String method) throws SQLException {
-        String query = "UPDATE payments SET sale_id=?, payment_date=?, amount=?, method=? WHERE id=?";
+        String query = "UPDATE payment SET sale_id=?, payment_date=?, amount=?, method=? WHERE id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setInt(1, saleId);
         ps.setString(2, paymentDate);
@@ -53,7 +53,7 @@ public class DPayment {
     }
 
     public String delete(int id) throws SQLException {
-        String query = "DELETE FROM payments WHERE id=?";
+        String query = "DELETE FROM payment WHERE id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setInt(1, id);
         if (ps.executeUpdate() == 0) {
@@ -64,12 +64,12 @@ public class DPayment {
     }
 
     public List<String[]> findAll() throws SQLException {
-        List<String[]> payments = new ArrayList<>();
-        String query = "SELECT * FROM payments";
+        List<String[]> payment = new ArrayList<>();
+        String query = "SELECT * FROM payment";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            payments.add(new String[] {
+            payment.add(new String[] {
                     String.valueOf(rs.getInt("id")),
                     String.valueOf(rs.getInt("sale_id")),
                     rs.getString("payment_date"),
@@ -77,12 +77,12 @@ public class DPayment {
                     rs.getString("method")
             });
         }
-        return payments;
+        return payment;
     }
 
     public String[] findOne(int id) throws SQLException {
         String[] payment = null;
-        String query = "SELECT * FROM payments WHERE id=?";
+        String query = "SELECT * FROM payment WHERE id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();

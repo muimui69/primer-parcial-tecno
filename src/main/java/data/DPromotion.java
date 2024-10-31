@@ -24,7 +24,7 @@ public class DPromotion {
     }
 
     public String save(String name, double discountPercentage, String startDate, String endDate) throws SQLException {
-        String query = "INSERT INTO promotions (name, discount_percentage, start_date, end_date) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO promotion (name, discount_percentage, start_date, end_date) VALUES (?, ?, ?, ?)";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setString(1, name);
         ps.setDouble(2, discountPercentage);
@@ -38,7 +38,7 @@ public class DPromotion {
     }
 
     public String update(int id, String name, double discountPercentage, String startDate, String endDate) throws SQLException {
-        String query = "UPDATE promotions SET name=?, discount_percentage=?, start_date=?, end_date=? WHERE id=?";
+        String query = "UPDATE promotion SET name=?, discount_percentage=?, start_date=?, end_date=? WHERE id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setString(1, name);
         ps.setDouble(2, discountPercentage);
@@ -53,7 +53,7 @@ public class DPromotion {
     }
 
     public String delete(int id) throws SQLException {
-        String query = "DELETE FROM promotions WHERE id=?";
+        String query = "DELETE FROM promotion WHERE id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setInt(1, id);
         if (ps.executeUpdate() == 0) {
@@ -64,12 +64,12 @@ public class DPromotion {
     }
 
     public List<String[]> findAll() throws SQLException {
-        List<String[]> promotions = new ArrayList<>();
-        String query = "SELECT * FROM promotions";
+        List<String[]> promotion = new ArrayList<>();
+        String query = "SELECT * FROM promotion";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            promotions.add(new String[] {
+            promotion.add(new String[] {
                     String.valueOf(rs.getInt("id")),
                     rs.getString("name"),
                     String.valueOf(rs.getDouble("discount_percentage")),
@@ -77,12 +77,12 @@ public class DPromotion {
                     rs.getString("end_date")
             });
         }
-        return promotions;
+        return promotion;
     }
 
     public String[] findOne(int id) throws SQLException {
         String[] promotion = null;
-        String query = "SELECT * FROM promotions WHERE id=?";
+        String query = "SELECT * FROM promotion WHERE id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();

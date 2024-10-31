@@ -24,7 +24,7 @@ public class DPurchaseDetails {
     }
 
     public String save(int purchaseId, int productId, int quantity, double price) throws SQLException {
-        String query = "INSERT INTO purchase_details (purchase_id, product_id, quantity, price) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO purchase_detail (purchase_id, product_id, quantity, price) VALUES (?, ?, ?, ?)";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setInt(1, purchaseId);
         ps.setInt(2, productId);
@@ -38,7 +38,7 @@ public class DPurchaseDetails {
     }
 
     public String update(int purchaseId, int productId, int quantity, double price) throws SQLException {
-        String query = "UPDATE purchase_details SET quantity=?, price=? WHERE purchase_id=? AND product_id=?";
+        String query = "UPDATE purchase_detail SET quantity=?, price=? WHERE purchase_id=? AND product_id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setInt(1, quantity);
         ps.setDouble(2, price);
@@ -52,7 +52,7 @@ public class DPurchaseDetails {
     }
 
     public String delete(int purchaseId, int productId) throws SQLException {
-        String query = "DELETE FROM purchase_details WHERE purchase_id=? AND product_id=?";
+        String query = "DELETE FROM purchase_detail WHERE purchase_id=? AND product_id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setInt(1, purchaseId);
         ps.setInt(2, productId);
@@ -65,7 +65,7 @@ public class DPurchaseDetails {
 
     public List<String[]> findAll() throws SQLException {
         List<String[]> purchaseDetails = new ArrayList<>();
-        String query = "SELECT * FROM purchase_details";
+        String query = "SELECT * FROM purchase_detail";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
@@ -81,7 +81,7 @@ public class DPurchaseDetails {
 
     public String[] findOne(int purchaseId, int productId) throws SQLException {
         String[] purchaseDetail = null;
-        String query = "SELECT * FROM purchase_details WHERE purchase_id=? AND product_id=?";
+        String query = "SELECT * FROM purchase_detail WHERE purchase_id=? AND product_id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
         ps.setInt(1, purchaseId);
         ps.setInt(2, productId);
