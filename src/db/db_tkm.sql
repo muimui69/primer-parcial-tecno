@@ -76,9 +76,9 @@ CREATE TABLE payments (
 
 -- Insert sample data into users
 INSERT INTO users (name, email, password, role) VALUES
-('Alice Smith', 'alice@example.com', 'password123', 'Cliente'),
-('Bob Brown', 'bob@example.com', 'password456', 'Cliente'),
-('Admin User', 'admin@example.com', 'adminpass', 'Administrativo');
+('Alice Smith', 'alice@example.com', 'password123', 'CLIENT'),
+('Bob Brown', 'bob@example.com', 'password456', 'CLIENT'),
+('Admin User', 'admin@example.com', 'adminpass', 'ADMIN');
 
 -- Insert sample data into products
 INSERT INTO products (name, price, description, stock) VALUES
