@@ -11,7 +11,7 @@ import java.util.List;
 
 public class DProduct {
 
-    private DatabaseConnection db;
+    private final DatabaseConnection db;
     ConfigDB ConfigDb = new ConfigDB();
 
     public DProduct() {

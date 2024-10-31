@@ -1,11 +1,11 @@
 package config;
 
 public class ConfigDB {
-    private String user;
-    private String password;
-    private String host;
-    private String port;
-    private String dbName;
+    private final String  user;
+    private final String password;
+    private final String host;
+    private final String port;
+    private final String dbName;
 
     public ConfigDB() {
         this.user = "grupo05sc";
