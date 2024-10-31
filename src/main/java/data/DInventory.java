@@ -40,13 +40,14 @@ public class DInventory {
         return "El movimiento de inventario se insertó con éxito";
     }
 
-    public String update(int id, int productId, String movementType, int quantity, String date) throws SQLException {
+    public String update(int id, int productId, String movementType, int quantity) throws SQLException {
         String query = "UPDATE inventory SET product_id=?, movement_type=?, quantity=?, date=? WHERE id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
+        LocalDate now = LocalDate.now();
         ps.setInt(1, productId);
         ps.setString(2, movementType);
         ps.setInt(3, quantity);
-        ps.setString(4, date);
+        ps.setDate(4, Date.valueOf(now));
         ps.setInt(5, id);
         if (ps.executeUpdate() == 0) {
             System.err.println("class DInventory.java dice:" + "El movimiento de inventario no se pudo actualizar");

@@ -21,9 +21,9 @@ public class BInventory {
         }
     }
 
-    public String update(int id, int productId, String movementType, int quantity, String date) {
+    public String update(int id, int productId, String movementType, int quantity) {
         try {
-            return dInventory.update(id, productId, movementType, quantity, date);
+            return dInventory.update(id, productId, movementType, quantity);
         } catch (SQLException e) {
             e.printStackTrace();
             return "El movimiento de inventario no se pudo actualizar: " + e.getMessage();
