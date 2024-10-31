@@ -64,13 +64,8 @@ public class Main {
         BSale bSale = new BSale();
         System.out.println("\n== Gestionando Ventas ==");
 
-        try {
-            Date saleDate = DateString.StringToDateSQL("2024-12-15");
-            String resultSale = bSale.save(1, 39.99, saleDate);  // Usuario ID = 1
-            System.out.println(resultSale);
-        } catch (ParseException e) {
-            System.out.println("Error al convertir la fecha de la venta: " + e.getMessage());
-        }
+        String resultSale = bSale.save(1, 39.99);  // Usuario ID = 1
+        System.out.println(resultSale);
 
         // Añadir detalles a la venta
         BSaleDetails bSaleDetails = new BSaleDetails();
@@ -79,13 +74,8 @@ public class Main {
 
         // Registrar un pago para la venta
         BPayment bPayment = new BPayment();
-        try {
-            Date paymentDate = DateString.StringToDateSQL("2024-12-15");
-            String resultPayment = bPayment.save(1, paymentDate, 39.99, "Credit Card");
-            System.out.println(resultPayment);
-        } catch (ParseException e) {
-            System.out.println("Error al convertir la fecha del pago: " + e.getMessage());
-        }
+        String resultPayment = bPayment.save(1, 39.99, "Credit Card");
+        System.out.println(resultPayment);
 
         // Consultar y mostrar ventas
         List<String[]> sales = bSale.findAll();
