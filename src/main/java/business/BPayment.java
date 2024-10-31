@@ -1,6 +1,7 @@
 package business;
 
 import data.DPayment;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -11,18 +12,18 @@ public class BPayment {
         this.dPayment = new DPayment();
     }
 
-    public String save(int saleId, String paymentDate, double amount, String method) {
+    public String save(int saleId, double amount, String method) {
         try {
-            return dPayment.save(saleId, paymentDate, amount, method);
+            return dPayment.save(saleId, amount, method);
         } catch (SQLException e) {
             e.printStackTrace();
             return "El pago no se pudo guardar: " + e.getMessage();
         }
     }
 
-    public String update(int id, int saleId, String paymentDate, double amount, String method) {
+    public String update(int id, int saleId, double amount, String method) {
         try {
-            return dPayment.update(id, saleId, paymentDate, amount, method);
+            return dPayment.update(id, saleId, amount, method);
         } catch (SQLException e) {
             e.printStackTrace();
             return "El pago no se pudo actualizar: " + e.getMessage();

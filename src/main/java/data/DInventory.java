@@ -3,9 +3,11 @@ package data;
 import config.ConfigDB;
 import config.DatabaseConnection;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,13 +25,14 @@ public class DInventory {
         );
     }
 
-    public String save(int productId, String movementType, int quantity, String date) throws SQLException {
+    public String save(int productId, String movementType, int quantity) throws SQLException {
         String query = "INSERT INTO inventory (product_id, movement_type, quantity, date) VALUES (?, ?, ?, ?)";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
+        LocalDate now = LocalDate.now();
         ps.setInt(1, productId);
         ps.setString(2, movementType);
         ps.setInt(3, quantity);
-        ps.setString(4, date);
+        ps.setDate(4, Date.valueOf(now));
         if (ps.executeUpdate() == 0) {
             System.err.println("class DInventory.java dice:" + "El movimiento de inventario no se pudo insertar");
             throw new SQLException();

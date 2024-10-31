@@ -3,9 +3,11 @@ package data;
 import config.ConfigDB;
 import config.DatabaseConnection;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +25,12 @@ public class DPayment {
         );
     }
 
-    public String save(int saleId, String paymentDate, double amount, String method) throws SQLException {
+    public String save(int saleId, double amount, String method) throws SQLException {
         String query = "INSERT INTO payment (sale_id, payment_date, amount, method) VALUES (?, ?, ?, ?)";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
+        LocalDate now = LocalDate.now();
         ps.setInt(1, saleId);
-        ps.setString(2, paymentDate);
+        ps.setDate(2, Date.valueOf(now));
         ps.setDouble(3, amount);
         ps.setString(4, method);
         if (ps.executeUpdate() == 0) {
@@ -37,11 +40,12 @@ public class DPayment {
         return "El pago se insertó con éxito";
     }
 
-    public String update(int id, int saleId, String paymentDate, double amount, String method) throws SQLException {
+    public String update(int id, int saleId, double amount, String method) throws SQLException {
         String query = "UPDATE payment SET sale_id=?, payment_date=?, amount=?, method=? WHERE id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
+        LocalDate now = LocalDate.now();
         ps.setInt(1, saleId);
-        ps.setString(2, paymentDate);
+        ps.setDate(2, Date.valueOf(now));
         ps.setDouble(3, amount);
         ps.setString(4, method);
         ps.setInt(5, id);

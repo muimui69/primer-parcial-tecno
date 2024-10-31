@@ -6,8 +6,11 @@ import config.DatabaseConnection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Date;
+
 
 public class DPurchase {
     private final DatabaseConnection db;
@@ -23,12 +26,13 @@ public class DPurchase {
         );
     }
 
-    public String save(int userId, double total, String purchaseDate) throws SQLException {
+    public String save(int userId, double total) throws SQLException {
         String query = "INSERT INTO purchase (user_id, total, purchase_date) VALUES (?, ?, ?)";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
+        LocalDate now = LocalDate.now();
         ps.setInt(1, userId);
         ps.setDouble(2, total);
-        ps.setString(3, purchaseDate);
+        ps.setDate(3, Date.valueOf(now));
         if (ps.executeUpdate() == 0) {
             System.err.println("class DPurchase.java dice:" + "La compra no se pudo insertar");
             throw new SQLException();
@@ -36,12 +40,13 @@ public class DPurchase {
         return "La compra se insertó con éxito";
     }
 
-    public String update(int id, int userId, double total, String purchaseDate) throws SQLException {
+    public String update(int id, int userId, double total) throws SQLException {
         String query = "UPDATE purchase SET user_id=?, total=?, purchase_date=? WHERE id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
+        LocalDate now = LocalDate.now();
         ps.setInt(1, userId);
         ps.setDouble(2, total);
-        ps.setString(3, purchaseDate);
+        ps.setDate(3, Date.valueOf(now));
         ps.setInt(4, id);
         if (ps.executeUpdate() == 0) {
             System.err.println("class DPurchase.java dice:" + "La compra no se pudo modificar");

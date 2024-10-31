@@ -11,18 +11,18 @@ public class BPurchase {
         this.dPurchase = new DPurchase();
     }
 
-    public String save(int userId, double total, String purchaseDate) {
+    public String save(int userId, double total) {
         try {
-            return dPurchase.save(userId, total, purchaseDate);
+            return dPurchase.save(userId, total);
         } catch (SQLException e) {
             e.printStackTrace();
             return "La compra no se pudo guardar: " + e.getMessage();
         }
     }
 
-    public String update(int id, int userId, double total, String purchaseDate) {
+    public String update(int id, int userId, double total) {
         try {
-            return dPurchase.update(id, userId, total, purchaseDate);
+            return dPurchase.update(id, userId, total);
         } catch (SQLException e) {
             e.printStackTrace();
             return "La compra no se pudo actualizar: " + e.getMessage();

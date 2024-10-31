@@ -3,9 +3,11 @@ package data;
 import config.ConfigDB;
 import config.DatabaseConnection;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,12 +25,13 @@ public class DSale {
         );
     }
 
-    public String save(int userId, double total, String saleDate) throws SQLException {
+    public String save(int userId, double total) throws SQLException {
         String query = "INSERT INTO sale (user_id, total, sale_date) VALUES (?, ?, ?)";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
+        LocalDate now = LocalDate.now();
         ps.setInt(1, userId);
         ps.setDouble(2, total);
-        ps.setString(3, saleDate);
+        ps.setDate(3, Date.valueOf(now));
         if (ps.executeUpdate() == 0) {
             System.err.println("class DSale.java dice:" + "La venta no se pudo insertar");
             throw new SQLException();
@@ -36,12 +39,13 @@ public class DSale {
         return "La venta se insertó con éxito";
     }
 
-    public String update(int id, int userId, double total, String saleDate) throws SQLException {
+    public String update(int id, int userId, double total) throws SQLException {
         String query = "UPDATE sale SET user_id=?, total=?, sale_date=? WHERE id=?";
         PreparedStatement ps = db.openConnection().prepareStatement(query);
+        LocalDate now = LocalDate.now();
         ps.setInt(1, userId);
         ps.setDouble(2, total);
-        ps.setString(3, saleDate);
+        ps.setDate(3, Date.valueOf(now));
         ps.setInt(4, id);
         if (ps.executeUpdate() == 0) {
             System.err.println("class DSale.java dice:" + "La venta no se pudo actualizar");

@@ -1,5 +1,6 @@
 package business;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import data.DPromotion;
@@ -11,7 +12,7 @@ public class BPromotion {
         this.dPromotion = new DPromotion();
     }
 
-    public String save(String name, double discountPercentage, String startDate, String endDate) {
+    public String save(String name, double discountPercentage, Date startDate, Date endDate) {
         try {
             return dPromotion.save(name, discountPercentage, startDate, endDate);
         } catch (SQLException e) {
@@ -20,7 +21,7 @@ public class BPromotion {
         }
     }
 
-    public String update(int id, String name, double discountPercentage, String startDate, String endDate) {
+    public String update(int id, String name, double discountPercentage, Date startDate, Date endDate) {
         try {
             return dPromotion.update(id, name, discountPercentage, startDate, endDate);
         } catch (SQLException e) {

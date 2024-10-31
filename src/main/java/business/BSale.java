@@ -11,18 +11,18 @@ public class BSale {
         this.dSale = new DSale();
     }
 
-    public String save(int userId, double total, String saleDate) {
+    public String save(int userId, double total) {
         try {
-            return dSale.save(userId, total, saleDate);
+            return dSale.save(userId, total);
         } catch (SQLException e) {
             e.printStackTrace();
             return "La venta no se pudo guardar: " + e.getMessage();
         }
     }
 
-    public String update(int id, int userId, double total, String saleDate) {
+    public String update(int id, int userId, double total) {
         try {
-            return dSale.update(id, userId, total, saleDate);
+            return dSale.update(id, userId, total);
         } catch (SQLException e) {
             e.printStackTrace();
             return "La venta no se pudo actualizar: " + e.getMessage();

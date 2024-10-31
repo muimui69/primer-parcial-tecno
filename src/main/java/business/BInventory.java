@@ -11,9 +11,10 @@ public class BInventory {
         this.dInventory = new DInventory();
     }
 
-    public String save(int productId, String movementType, int quantity, String date) {
+    public String save(int productId, String movementType, int quantity) {
         try {
-            return dInventory.save(productId, movementType, quantity, date);
+
+            return dInventory.save(productId, movementType, quantity);
         } catch (SQLException e) {
             e.printStackTrace();
             return "El movimiento de inventario no se pudo guardar: " + e.getMessage();
