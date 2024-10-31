@@ -95,6 +95,6 @@ public class DPurchase {
     }
 
     public void closeConnection() {
-        db.closeConnection();
+        if (db != null) db.closeConnection();
     }
 }

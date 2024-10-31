@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DSale {
-    private DatabaseConnection db;
+    private final DatabaseConnection db;
     ConfigDB configDB = new ConfigDB();
 
     public DSale() {
@@ -36,6 +36,31 @@ public class DSale {
         return "La venta se insertó con éxito";
     }
 
+    public String update(int id, int userId, double total, String saleDate) throws SQLException {
+        String query = "UPDATE sales SET user_id=?, total=?, sale_date=? WHERE id=?";
+        PreparedStatement ps = db.openConnection().prepareStatement(query);
+        ps.setInt(1, userId);
+        ps.setDouble(2, total);
+        ps.setString(3, saleDate);
+        ps.setInt(4, id);
+        if (ps.executeUpdate() == 0) {
+            System.err.println("class DSale.java dice:" + "La venta no se pudo actualizar");
+            throw new SQLException();
+        }
+        return "La venta se actualizó con éxito";
+    }
+
+    public String delete(int id) throws SQLException {
+        String query = "DELETE FROM sales WHERE id=?";
+        PreparedStatement ps = db.openConnection().prepareStatement(query);
+        ps.setInt(1, id);
+        if (ps.executeUpdate() == 0) {
+            System.err.println("class DSale.java dice:" + "La venta no se pudo eliminar");
+            throw new SQLException();
+        }
+        return "La venta se eliminó con éxito";
+    }
+
     public List<String[]> findAll() throws SQLException {
         List<String[]> sales = new ArrayList<>();
         String query = "SELECT * FROM sales";
@@ -52,7 +77,24 @@ public class DSale {
         return sales;
     }
 
+    public String[] findOne(int id) throws SQLException {
+        String[] sale = null;
+        String query = "SELECT * FROM sales WHERE id=?";
+        PreparedStatement ps = db.openConnection().prepareStatement(query);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            sale = new String[] {
+                    String.valueOf(rs.getInt("id")),
+                    String.valueOf(rs.getInt("user_id")),
+                    String.valueOf(rs.getDouble("total")),
+                    rs.getString("sale_date")
+            };
+        }
+        return sale;
+    }
+
     public void closeConnection() {
-        db.closeConnection();
+        if (db != null) db.closeConnection();
     }
 }

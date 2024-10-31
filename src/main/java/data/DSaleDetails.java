@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DSaleDetails {
-    private DatabaseConnection db;
+    private final DatabaseConnection db;
     ConfigDB configDB = new ConfigDB();
 
     public DSaleDetails() {
@@ -37,6 +37,32 @@ public class DSaleDetails {
         return "El detalle de venta se insertó con éxito";
     }
 
+    public String update(int saleId, int productId, int quantity, double price) throws SQLException {
+        String query = "UPDATE sale_details SET quantity=?, price=? WHERE sale_id=? AND product_id=?";
+        PreparedStatement ps = db.openConnection().prepareStatement(query);
+        ps.setInt(1, quantity);
+        ps.setDouble(2, price);
+        ps.setInt(3, saleId);
+        ps.setInt(4, productId);
+        if (ps.executeUpdate() == 0) {
+            System.err.println("class DSaleDetails.java dice:" + "El detalle de venta no se pudo actualizar");
+            throw new SQLException();
+        }
+        return "El detalle de venta se actualizó con éxito";
+    }
+
+    public String delete(int saleId, int productId) throws SQLException {
+        String query = "DELETE FROM sale_details WHERE sale_id=? AND product_id=?";
+        PreparedStatement ps = db.openConnection().prepareStatement(query);
+        ps.setInt(1, saleId);
+        ps.setInt(2, productId);
+        if (ps.executeUpdate() == 0) {
+            System.err.println("class DSaleDetails.java dice:" + "El detalle de venta no se pudo eliminar");
+            throw new SQLException();
+        }
+        return "El detalle de venta se eliminó con éxito";
+    }
+
     public List<String[]> findAll() throws SQLException {
         List<String[]> saleDetails = new ArrayList<>();
         String query = "SELECT * FROM sale_details";
@@ -53,7 +79,25 @@ public class DSaleDetails {
         return saleDetails;
     }
 
+    public String[] findOne(int saleId, int productId) throws SQLException {
+        String[] saleDetail = null;
+        String query = "SELECT * FROM sale_details WHERE sale_id=? AND product_id=?";
+        PreparedStatement ps = db.openConnection().prepareStatement(query);
+        ps.setInt(1, saleId);
+        ps.setInt(2, productId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            saleDetail = new String[] {
+                    String.valueOf(rs.getInt("sale_id")),
+                    String.valueOf(rs.getInt("product_id")),
+                    String.valueOf(rs.getInt("quantity")),
+                    String.valueOf(rs.getDouble("price"))
+            };
+        }
+        return saleDetail;
+    }
+
     public void closeConnection() {
-        db.closeConnection();
+        if (db != null) db.closeConnection();
     }
 }

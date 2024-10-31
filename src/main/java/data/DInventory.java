@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DInventory {
-    private DatabaseConnection db;
+    private final DatabaseConnection db;
     ConfigDB configDB = new ConfigDB();
 
     public DInventory() {
@@ -37,6 +37,32 @@ public class DInventory {
         return "El movimiento de inventario se insertó con éxito";
     }
 
+    public String update(int id, int productId, String movementType, int quantity, String date) throws SQLException {
+        String query = "UPDATE inventory SET product_id=?, movement_type=?, quantity=?, date=? WHERE id=?";
+        PreparedStatement ps = db.openConnection().prepareStatement(query);
+        ps.setInt(1, productId);
+        ps.setString(2, movementType);
+        ps.setInt(3, quantity);
+        ps.setString(4, date);
+        ps.setInt(5, id);
+        if (ps.executeUpdate() == 0) {
+            System.err.println("class DInventory.java dice:" + "El movimiento de inventario no se pudo actualizar");
+            throw new SQLException();
+        }
+        return "El movimiento de inventario se actualizó con éxito";
+    }
+
+    public String delete(int id) throws SQLException {
+        String query = "DELETE FROM inventory WHERE id=?";
+        PreparedStatement ps = db.openConnection().prepareStatement(query);
+        ps.setInt(1, id);
+        if (ps.executeUpdate() == 0) {
+            System.err.println("class DInventory.java dice:" + "El movimiento de inventario no se pudo eliminar");
+            throw new SQLException();
+        }
+        return "El movimiento de inventario se eliminó con éxito";
+    }
+
     public List<String[]> findAll() throws SQLException {
         List<String[]> inventoryList = new ArrayList<>();
         String query = "SELECT * FROM inventory";
@@ -54,7 +80,25 @@ public class DInventory {
         return inventoryList;
     }
 
+    public String[] findOne(int id) throws SQLException {
+        String[] inventoryItem = null;
+        String query = "SELECT * FROM inventory WHERE id=?";
+        PreparedStatement ps = db.openConnection().prepareStatement(query);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            inventoryItem = new String[] {
+                    String.valueOf(rs.getInt("id")),
+                    String.valueOf(rs.getInt("product_id")),
+                    rs.getString("movement_type"),
+                    String.valueOf(rs.getInt("quantity")),
+                    rs.getString("date")
+            };
+        }
+        return inventoryItem;
+    }
+
     public void closeConnection() {
-        db.closeConnection();
+        if (db != null) db.closeConnection();
     }
 }
